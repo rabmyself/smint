@@ -19,9 +19,7 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 		// adding a class to users div
 		$(this).addClass('smint')
 
-		var settings = $.extend({
-		            'scrollSpeed '  : 500
-		}, options);
+		var settings = $.extend({}, $.fn.smint.defaults, options);
 
 		//Set the variables needed
 		var optionLocs = new Array();
@@ -30,10 +28,6 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 
 		return $('.smint a').each( function(index) {
             
-			if ( settings.scrollSpeed ) {
-				var scrollSpeed = settings.scrollSpeed
-			}
-
 			//Fill the menu
 			var id = this.id;
 			optionLocs.push(Array($("div."+id).position().top-menuHeight, $("div."+id).height()+$("div."+id).position().top, id));
@@ -72,7 +66,6 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 					}
 					$.each(optionLocs, function(i){
 						if(id != optionLocs[i][2]){
-							console.log(i);
 							$("#"+optionLocs[i][2]).removeClass("active");
 						}
 					});
@@ -128,11 +121,13 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 				var goTo =  $('div.'+ id).offset().top -selectorHeight;
 
 				// Scroll the page to the desired position!
-				$("html, body").animate({ scrollTop: goTo }, scrollSpeed);
+				$("html, body").animate({ scrollTop: goTo }, settings.scrollSpeed);
 
 			});	
 		});
 	}
 
-
+	$.fn.smint.defaults = { 'scrollSpeed': 500};
 })(jQuery);
+
+
