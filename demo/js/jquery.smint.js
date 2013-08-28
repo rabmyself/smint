@@ -36,7 +36,7 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 			}
 
 			//Fill the menu
-			var id = $(this).attr("id");
+			var id = this.id;
 			optionLocs.push(Array($("div."+id).position().top-menuHeight, $("div."+id).height()+$("div."+id).position().top, id));
 
 			///////////////////////////////////
@@ -115,7 +115,7 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 				e.preventDefault();
 
 				// get id pf the button you just clicked
-		 		var id = $(this).attr('id');
+		 		var id = this.id;
 
 		 		// if the link has the smint-disable class it will be ignored 
 		 		// Courtesy of mcpacosy ‏(@mcpacosy)
