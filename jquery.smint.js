@@ -12,8 +12,7 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 */
 
 
-	(function(){
-
+(function($){
 
 	$.fn.smint = function( options ) {
 
@@ -136,4 +135,4 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 	}
 
 
-})();
+})(jQuery);
