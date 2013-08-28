@@ -21,12 +21,13 @@
 
 <script type="text/javascript">
 	
-
-$(document).ready( function() {
-    $('.subMenu').smint({
-    	'scrollSpeed' : 1000
-    });
-});
+(function($) {
+	$(function() {
+	    $('.subMenu').smint({
+	    	'scrollSpeed' : 1000
+	    });
+	});
+})(jQuery)
 
 
 </script>
@@ -42,7 +43,7 @@ $(document).ready( function() {
 			<li><a href="#" id="s2">Section 2</a></li>
 			<li><a href="#" id="s3">Section 3</a></li>
 			<li><a href="#" id="s4">Section 4</a></li>
-			<li class="end"><a href="#" id="s5">Section 5</a></li>
+			<li><a href="#" id="s5">Section 5</a></li>
 		</ul>
 
 
