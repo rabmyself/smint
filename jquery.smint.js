@@ -30,7 +30,7 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
             
 			//Fill the menu
 			var id = this.id;
-			optionLocs.push(Array($("div."+id).position().top-menuHeight, $("div."+id).height()+$("div."+id).position().top, id));
+			optionLocs.push(Array($("."+id).position().top-menuHeight, $("."+id).height()+$("."+id).position().top, id));
 
 			///////////////////////////////////
 
@@ -101,7 +101,7 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
     
         
         	$(this).click(function(e){
-				// gets the height of the users div. This is used for off-setting the scroll so the menu doesnt overlap any content in the div they jst scrolled to
+				// gets the height of the menu. This is used for off-setting the scroll so the menu doesn't overlap any content in the section/div they just scrolled to
 				var selectorHeight = $smint.height();   
 
         		// stops empty hrefs making the page jump when clicked
@@ -118,8 +118,8 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
                     return false;
                 }
 
-				// gets the distance from top of the div class that matches your button id minus the height of the nav menu. This means the nav wont initially overlap the content.
-				var goTo =  $('div.'+ id).offset().top -selectorHeight;
+				// gets the distance from top of the section/div class that matches your button id minus the height of the nav menu. This means the nav wont initially overlap the content.
+				var goTo =  $('.'+ id).offset().top -selectorHeight;
 
 				// Scroll the page to the desired position!
 				$("html, body").animate({ scrollTop: goTo }, settings.scrollSpeed);
