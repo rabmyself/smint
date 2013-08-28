@@ -29,8 +29,15 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 		return $smintItems.each( function(index) {
             
 			//Fill the menu
-			var id = this.id;
-			optionLocs.push(Array($("."+id).position().top-menuHeight, $("."+id).height()+$("."+id).position().top, id));
+			var id = this.id,
+				matchingSection = $("."+id),
+				sectionTop = matchingSection.position().top;
+
+			optionLocs.push({
+					top: matchingSection.position().top - menuHeight,
+					bottom: matchingSection.height() + sectionTop,
+					id: id
+			});
 
 			///////////////////////////////////
 
@@ -38,10 +45,10 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 			var stickyTop = $smint.offset().top;	
 
 			// check position and make sticky if needed
-			var stickyMenu = function(direction){
+			var stickyMenu = function(scrollingDown){
 
 				// current distance top
-				var scrollTop = $window.scrollTop(); 
+				var scrollTop = $window.scrollTop();
 
 				// if we scroll more than the navigation, change its position to fixed and add class 'fxd', otherwise change it back to absolute and remove the class
 				if (scrollTop > stickyTop) { 
@@ -54,39 +61,25 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 				// Courtesy of Ryan Clarke (@clarkieryan)
 
 
-				if(optionLocs[index][0] <= scrollTop && scrollTop <= optionLocs[index][1]){	
-					if(direction == "up"){
-						$("#"+id).addClass("active");
-						$("#"+optionLocs[index+1][2]).removeClass("active");
+				if(optionLocs[index].top <= scrollTop && scrollTop <= optionLocs[index].bottom){	
+					$smintItems.removeClass("active");
+					$("#"+id).addClass("active");
+					if(!scrollingDown){
+						$("#"+optionLocs[index+1].id).removeClass("active");
 					} else if(index > 0) {
-						$("#"+id).addClass("active");
-						$("#"+optionLocs[index-1][2]).removeClass("active");
-					} else if(direction == undefined){
-						$("#"+id).addClass("active");
+						$("#"+optionLocs[index-1].id).removeClass("active");
 					}
-					$.each(optionLocs, function(i){
-						if(id != optionLocs[i][2]){
-							$("#"+optionLocs[i][2]).removeClass("active");
-						}
-					});
 				}
 			};
-
-			// run functions
-			stickyMenu();
 
 			// run function every time you scroll
 			$window = $(window);
 			$window.scroll(function() {
 				//Get the direction of scroll
-				var st = $(this).scrollTop();
-				if (st > lastScrollTop) {
-				    direction = "down";
-				} else if (st < lastScrollTop ){
-				    direction = "up";
-				}
-				lastScrollTop = st;
-				stickyMenu(direction);
+				var st = $(this).scrollTop(),
+					scrollingDown = (st > lastScrollTop), 
+					lastScrollTop = st;
+				stickyMenu(scrollingDown);
 
 				// Check if at bottom of page, if so, add class to last <a> as sometimes the last div
 				// isnt long enough to scroll to the top of the page and trigger the active state.
