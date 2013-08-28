@@ -16,17 +16,17 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 
 	$.fn.smint = function( options ) {
 
-		// adding a class to users div
-		this.addClass('smint');
+		var $smint = this,
+			$smintItems = $smint.find('a'),
+			$window = $(window),
+			settings = $.extend({}, $.fn.smint.defaults, options),
+			// Set the variables needed
+			optionLocs = [],
+			lastScrollTop = 0,
+			menuHeight = $smint.height();
 
-		var settings = $.extend({}, $.fn.smint.defaults, options);
 
-		//Set the variables needed
-		var optionLocs = new Array();
-		var lastScrollTop = 0;
-		var menuHeight = $(".smint").height();
-
-		return $('.smint a').each( function(index) {
+		return $smintItems.each( function(index) {
             
 			//Fill the menu
 			var id = this.id;
@@ -35,19 +35,19 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 			///////////////////////////////////
 
 			// get initial top offset for the menu 
-			var stickyTop = $('.smint').offset().top;	
+			var stickyTop = $smint.offset().top;	
 
 			// check position and make sticky if needed
 			var stickyMenu = function(direction){
 
 				// current distance top
-				var scrollTop = $(window).scrollTop(); 
+				var scrollTop = $window.scrollTop(); 
 
 				// if we scroll more than the navigation, change its position to fixed and add class 'fxd', otherwise change it back to absolute and remove the class
 				if (scrollTop > stickyTop) { 
-					$('.smint').css({ 'position': 'fixed', 'top':0 }).addClass('fxd');	
+					$smint.css({ 'position': 'fixed', 'top':0 }).addClass('fxd');	
 				} else {
-					$('.smint').css({ 'position': 'absolute', 'top':stickyTop }).removeClass('fxd'); 
+					$smint.css({ 'position': 'absolute', 'top':stickyTop }).removeClass('fxd'); 
 				}   
 
 				//Check if the position is inside then change the menu
@@ -76,7 +76,8 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 			stickyMenu();
 
 			// run function every time you scroll
-			$(window).scroll(function() {
+			$window = $(window);
+			$window.scroll(function() {
 				//Get the direction of scroll
 				var st = $(this).scrollTop();
 				if (st > lastScrollTop) {
@@ -90,18 +91,18 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 				// Check if at bottom of page, if so, add class to last <a> as sometimes the last div
 				// isnt long enough to scroll to the top of the page and trigger the active state.
 
-				if($(window).scrollTop() + $(window).height() == $(document).height()) {
-       			$('.smint a').removeClass('active')
-       			$('.smint a').last().addClass('active')
-   }
+				if($window.scrollTop() + $window.height() == $(document).height()) {
+					$smintItems.removeClass('active');
+					$smintItems.last().addClass('active');
+				}
 			});
 
 			///////////////////////////////////////
     
         
-        	$(this).on('click', function(e){
+        	$(this).click(function(e){
 				// gets the height of the users div. This is used for off-setting the scroll so the menu doesnt overlap any content in the div they jst scrolled to
-				var selectorHeight = $('.smint').height();   
+				var selectorHeight = $smint.height();   
 
         		// stops empty hrefs making the page jump when clicked
 				e.preventDefault();
