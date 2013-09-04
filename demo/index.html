@@ -21,34 +21,30 @@
 
 <script type="text/javascript">
 	
-
-$(document).ready( function() {
-    $('.subMenu').smint({
-    	'scrollSpeed' : 1000
-    });
-});
+(function($) {
+	$(function() {
+	    $('.subMenu').smint({
+	    	'scrollSpeed' : 1000
+	    });
+	});
+})(jQuery)
 
 
 </script>
 
 </head>
-<body onload="setTimeout(function() { window.scrollTo(0, 1) }, 100);">
+<body>
 
 	<div class="wrap">
 
-	  <div class="subMenu" >
-	 	<div class="inner">
-	 		<a href="#" id="sTop" class="subNavBtn">Home</a> 
-			<a href="#" id="s1" class="subNavBtn">Section 1</a>
-			<a href="#" id="s2" class="subNavBtn">Section 2</a>
-			<a href="#" id="s3" class="subNavBtn">Section 3</a>
-			<a href="#" id="s4" class="subNavBtn">Section 4</a>
-			<a href="#" id="s5" class="subNavBtn end">Section 5</a>
-		</div>
-		
-		
-				
-	</div>
+		<ul class="subMenu" >
+	 		<li><a class="active" href="#" id="sTop">Home</a></li>
+			<li><a href="#" id="s1">Section 1</a></li>
+			<li><a href="#" id="s2">Section 2</a></li>
+			<li><a href="#" id="s3">Section 3</a></li>
+			<li><a href="#" id="s4">Section 4</a></li>
+			<li><a href="#" id="s5">Section 5</a></li>
+		</ul>
 
 
 	<div class="section sTop">
