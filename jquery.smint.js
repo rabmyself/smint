@@ -30,38 +30,38 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 		var menuHeight = $(".smint").height();
 
 		return $('.smint a').each( function(index) {
-            
+
 			if ( settings.scrollSpeed ) {
 				var scrollSpeed = settings.scrollSpeed
 			}
 
 			//Fill the menu
 			var id = $(this).attr("id");
-			optionLocs.push(Array($("div."+id).position().top-menuHeight, $("div."+id).height()+$("div."+id).position().top, id));
+			optionLocs.push(Array($("."+id).position().top-menuHeight, $("."+id).height()+$("."+id).position().top, id));
 
 			///////////////////////////////////
 
-			// get initial top offset for the menu 
-			var stickyTop = $('.smint').offset().top;	
+			// get initial top offset for the menu
+			var stickyTop = $('.smint').offset().top;
 
 			// check position and make sticky if needed
 			var stickyMenu = function(direction){
 
 				// current distance top
-				var scrollTop = $(window).scrollTop(); 
+				var scrollTop = $(window).scrollTop();
 
 				// if we scroll more than the navigation, change its position to fixed and add class 'fxd', otherwise change it back to absolute and remove the class
-				if (scrollTop > stickyTop) { 
-					$('.smint').css({ 'position': 'fixed', 'top':0 }).addClass('fxd');	
+				if (scrollTop > stickyTop) {
+					$('.smint').css({ 'position': 'fixed', 'top':0 }).addClass('fxd');
 				} else {
-					$('.smint').css({ 'position': 'absolute', 'top':stickyTop }).removeClass('fxd'); 
-				}   
+					$('.smint').css({ 'position': 'absolute', 'top':stickyTop }).removeClass('fxd');
+				}
 
 				//Check if the position is inside then change the menu
 				// Courtesy of Ryan Clarke (@clarkieryan)
 
 
-				if(optionLocs[index][0] <= scrollTop && scrollTop <= optionLocs[index][1]){	
+				if(optionLocs[index][0] <= scrollTop && scrollTop <= optionLocs[index][1]){
 					if(direction == "up"){
 						$("#"+id).addClass("active");
 						$("#"+optionLocs[index+1][2]).removeClass("active");
@@ -105,11 +105,11 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 			});
 
 			///////////////////////////////////////
-    
-        
+
+
         	$(this).on('click', function(e){
 				// gets the height of the users div. This is used for off-setting the scroll so the menu doesnt overlap any content in the div they jst scrolled to
-				var selectorHeight = $('.smint').height();   
+				var selectorHeight = $('.smint').height();
 
         		// stops empty hrefs making the page jump when clicked
 				e.preventDefault();
@@ -117,7 +117,7 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 				// get id pf the button you just clicked
 		 		var id = $(this).attr('id');
 
-		 		// if the link has the smint-disable class it will be ignored 
+		 		// if the link has the smint-disable class it will be ignored
 		 		// Courtesy of mcpacosy â€(@mcpacosy)
 
                 if ($(this).hasClass("smint-disable"))
@@ -126,12 +126,12 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
                 }
 
 				// gets the distance from top of the div class that matches your button id minus the height of the nav menu. This means the nav wont initially overlap the content.
-				var goTo =  $('div.'+ id).offset().top -selectorHeight;
+				var goTo =  $('.'+ id).offset().top -selectorHeight;
 
 				// Scroll the page to the desired position!
 				$("html, body").animate({ scrollTop: goTo }, scrollSpeed);
 
-			});	
+			});
 		});
 	}
 
