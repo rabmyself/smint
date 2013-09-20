@@ -11,7 +11,6 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 
 */
 
-
 	(function(){
 
 
@@ -114,7 +113,7 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
         		// stops empty hrefs making the page jump when clicked
 				e.preventDefault();
 
-				// get id pf the button you just clicked
+				// get id of the button you just clicked
 		 		var id = $(this).attr('id');
 
 		 		// if the link has the smint-disable class it will be ignored
