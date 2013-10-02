@@ -65,7 +65,9 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 					$smintItems.removeClass("active");
 					$("#"+id).addClass("active");
 					if(!scrollingDown){
-						$("#"+optionLocs[index+1].id).removeClass("active");
+						if(index+1 < optionLocs.length) {
+							$("#"+optionLocs[index+1].id).removeClass("active");
+						}
 					} else if(index > 0) {
 						$("#"+optionLocs[index-1].id).removeClass("active");
 					}
