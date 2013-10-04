@@ -12,20 +12,20 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 */
 
 
-(function() {
+(function($) {
 
-	$.fn.smint = function(scrollSpeed) {
-
-		scrollSpeed = (typeof optionalArg === "undefined") ? 500 : scrollSpeed;
+	$.fn.smint = function( options ) {
 
 		var $smint = this,
 			$smintItems = $smint.find('a'),
 			$window = $(window),
-			//Set the variables needed
+			settings = $.extend({}, $.fn.smint.defaults, options),
+			// Set the variables needed
 			optionLocs = [],
 			lastScrollTop = 0,
+			lastHash = '',
 			menuHeight = $smint.height(),
-			curi = -1,
+			curi = 0,
 			stickyTop = $smint.offset().top;
 
 		var stickyMenu = function(scrollingDown) {
@@ -46,13 +46,31 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 				$smint.css({ 'position': 'absolute', 'top': stickyTop, 'left': 'auto' }).removeClass('fxd');
 			}
 
-			// Check if the position is inside then change the menu
-			// Courtesy of Ryan Clarke (@clarkieryan)
 			if (!scrollingDown) {
 				while (true) {
 					if (scrollTop >= optionLocs[curi].top) {
 						$smintItems.removeClass('active');
 						$('#' + optionLocs[curi].id).addClass('active');
+						// The foll. makes the page very slow.
+						/*if(optionLocs[curi].hash != null && optionLocs[curi].hash != lastHash) {
+							window.location.hash = optionLocs[curi].hash;
+							lastHash = optionLocs[curi].hash;
+						}*/
+						break;
+					}
+					curi--;
+				}
+			}
+			else {
+				while (true) {
+					if (scrollTop < optionLocs[curi].bottom) {
+						$smintItems.removeClass('active');
+						$('#' + optionLocs[curi].id).addClass('active');
+						// The foll. makes the page very slow.
+						/*if(optionLocs[curi].hash != null && optionLocs[curi].hash != lastHash) {
+							window.location.hash = optionLocs[curi].hash;
+							lastHash = optionLocs[curi].hash;
+						}*/
 						break;
 					}
 					curi++;
@@ -62,16 +80,6 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 						break;
 					}
 					*/
-				}
-			}
-			else {
-				while (true) {
-					if (scrollTop < optionLocs[curi].bottom) {
-						$smintItems.removeClass('active');
-						$('#' + optionLocs[curi].id).addClass('active');
-						break;
-					}
-					curi--;
 				}
 			}
 		};
@@ -92,49 +100,53 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 			}
 		});
 
+		$smintItems.first().addClass('active');
+
+		// This function assumes that the elements are already in a sorted manner.
 		$smintItems.each(function() {
+			// No need to even add to optionLocs
 			if ($(this).hasClass("smint-disableAll")) {
 				return;
 			}
 			//Fill the menu
 			var id = this.id,
 				matchingSection = $("."+id),
-				sectionTop = matchingSection.position().top;
+				sectionTop = matchingSection.position().top,
+				hash = null;
+			if($(this).attr("href").indexOf('#') >= 0) {
+				hash = $(this).attr("href").substr($(this).attr("href").indexOf('#') + 1);
+			}
 			optionLocs.push({
 				top: sectionTop - menuHeight,
-				bottom: matchingSection.height() + sectionTop - menuHeight,
-				id: id
+				bottom: parseInt(matchingSection.height() * 0.9) + sectionTop - menuHeight, //Added so that if he is scrolling down and has reached 90% of the section.
+				id: id,
+				hash: hash
 			});
-			curi++;
-		});
 
-		//Just as a fail safe check to keep things sorted.
-		optionLocs.sort(function(a, b) {
-			if (a.top < b.top) {
-				return 1;
-			}
-			if (a.top > b.top) {
-				return -1;
-			}
-			return 0;
-		});
-
-		$smintItems.on('click', function(e) {
 			// if the link has the smint-disable class it will be ignored 
 			// Courtesy of mcpacosy(@mcpacosy)
-			if ($(this).hasClass("smint-disable") || $(this).hasClass("smint-disableAll")) {
+			// No need to add listener if this is the case.
+			if ($(this).hasClass("smint-disable")) {
 				return;
 			}
-			// stops empty hrefs making the page jump when clicked
-			// Added after the check of smint-disable so that if its an external href it will work.
-			e.preventDefault();
-			// gets the distance from top of the div class that matches your button id minus the height of the nav menu. This means the nav wont initially overlap the content.
-			// Scroll the page to the desired position!
-			$("html, body").animate({
-				scrollTop: ($('div.' + $(this).attr('id')).offset().top - menuHeight)
-			}, scrollSpeed);
+
+			$(this).on('click', function(e) {
+				// stops empty hrefs making the page jump when clicked
+				// Added after the check of smint-disableAll so that if its an external href it will work.
+				//e.preventDefault();
+				
+				// Scroll the page to the desired position!
+				$("html, body").animate({ scrollTop: sectionTop - menuHeight}, settings.scrollSpeed);
+			})
 		});
-		// check position and make sticky if needed
-		$smintItems.first().addClass('active');
+
+		if( (window.location.hash) && (window.location.hash != "#") ) {
+			// Scroll to the set hash.
+			$('a[href=' + window.location.hash + ']').trigger('click');
+		}
+		
 	}
-})();
+
+	$.fn.smint.defaults = { 'scrollSpeed': 500};
+
+})(jQuery);
