@@ -17,7 +17,7 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 	$.fn.smint = function( options ) {
 
 		var $smint = this,
-			$smintItems = $smint.find('a'),
+			$smintItems = $smint.find('a:not([class*="smint-disable"])'),
 			$window = $(window),
 			settings = $.extend({}, $.fn.smint.defaults, options),
 			// Set the variables needed
@@ -64,10 +64,13 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 				if(optionLocs[index].top <= scrollTop && scrollTop <= optionLocs[index].bottom){	
 					$smintItems.removeClass("active");
 					$("#"+id).addClass("active");
-					if(!scrollingDown){
-						$("#"+optionLocs[index+1].id).removeClass("active");
-					} else if(index > 0) {
-						$("#"+optionLocs[index-1].id).removeClass("active");
+					if(optionLocs[index+1])
+					{
+						if(!scrollingDown){
+							$("#"+optionLocs[index+1].id).removeClass("active");
+						} else if(index > 0) {
+							$("#"+optionLocs[index-1].id).removeClass("active");
+						}
 					}
 				}
 			};
@@ -84,7 +87,12 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 				// Check if at bottom of page, if so, add class to last <a> as sometimes the last div
 				// isnt long enough to scroll to the top of the page and trigger the active state.
 
-				if($window.scrollTop() + $window.height() == $(document).height()) {
+				/*  Using >= instead of == prevents last item from being 
+     		 		*  un-highlighted when the window bounces back in browser
+             			*
+             			*  -Andrew Teich
+             			*/
+				if($window.scrollTop() + $window.height() >= $(document).height()) {
 					$smintItems.removeClass('active');
 					$smintItems.last().addClass('active');
 				}
