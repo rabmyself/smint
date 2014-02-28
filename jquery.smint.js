@@ -94,7 +94,13 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 
 			// Check if at bottom of page, if so, add class to last <a> as sometimes the last div
 			// isnt long enough to scroll to the top of the page and trigger the active state.
-			if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+			
+			/*  Using >= instead of == prevents last item from being 
+             		 *  un-highlighted when the window bounces back in browser
+             		 *
+             		 *  -Andrew Teich
+             		 */
+			if ($(window).scrollTop() + $(window).height() => $(document).height()) {
 				$smintItems.removeClass('active');
 				$smintItems.last().addClass('active');
 			}
