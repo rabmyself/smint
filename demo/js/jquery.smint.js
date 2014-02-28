@@ -17,7 +17,7 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 	$.fn.smint = function( options ) {
 
 		var $smint = this,
-			$smintItems = $smint.find('a'),
+			$smintItems = $smint.find('a:not([class="smint-disable"])'),
 			$window = $(window),
 			settings = $.extend({}, $.fn.smint.defaults, options),
 			// Set the variables needed
