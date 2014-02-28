@@ -64,10 +64,13 @@ If you like Smint, or have suggestions on how it could be improved, send me a tw
 				if(optionLocs[index].top <= scrollTop && scrollTop <= optionLocs[index].bottom){	
 					$smintItems.removeClass("active");
 					$("#"+id).addClass("active");
-					if(!scrollingDown){
-						$("#"+optionLocs[index+1].id).removeClass("active");
-					} else if(index > 0) {
-						$("#"+optionLocs[index-1].id).removeClass("active");
+					if(optionLocs[index+1])
+					{
+						if(!scrollingDown){
+							$("#"+optionLocs[index+1].id).removeClass("active");
+						} else if(index > 0) {
+							$("#"+optionLocs[index-1].id).removeClass("active");
+						}
 					}
 				}
 			};
