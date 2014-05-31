@@ -1,0 +1,20 @@
+{
+  "name": "jquery-smint",
+  "version": "1.0.0",
+  "homepage": "https://github.com/rabmyself/smint",
+  "authors": [
+    "https://github.com/rabmyself/"
+  ],
+  "description": "easy jquery plugin to make a menu stick to the top when it isn't in the viewport",
+  "main": "jquery.smint.js",
+  "moduleType": [
+    "es6"
+  ],
+  "keywords": [
+    "jquery",
+    "plugin",
+    "scroll",
+    "viewport"
+  ],
+  "license": "MIT"
+}
